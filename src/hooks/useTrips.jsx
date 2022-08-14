@@ -11,18 +11,32 @@ export function TripProvider({children}){
 
 
     useEffect(() => {   
-       async function getTrips(){
-        await axios.get('https://api.mobilidade.rio/trip/?code=1K84')
+    try{
+        async function getTrips() {
+            await axios.get('https://api.mobilidade.rio/trip')
                 .then(response => {
-                    setTrip(response.data)
+                    console.log(response.data.results)
                 })
 
-       }
-       getTrips()
+        }
+        getTrips()
+    } catch{
+        console.log('erro')
+    }
+       
     }, [])
+
+    // FUNÇÕES DE BUSCAS
+    const [searchTripCode, setSearchTripCode] = useState('')
+
+    const searchHandler = (query) => {
+        setSearchTripCode(query);
+    }
+   
+ 
     
     return(
-        <TripContext.Provider value={{trip}}>
+        <TripContext.Provider value={{ trip, searchHandler, searchTripCode }}>
             {children}
         </TripContext.Provider>
     )

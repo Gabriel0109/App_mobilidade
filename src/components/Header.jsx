@@ -4,11 +4,7 @@ import logo from '../assets/logo.png'
 import { TripContext } from '../hooks/useTrips'
 
 export function Header() {
-    const {trip} = useContext(TripContext)
-    useEffect(() => {
-     console.log(trip)
  
-    }, [])
     
     return (<>
         <Flex
