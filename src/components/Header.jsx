@@ -1,7 +1,15 @@
 import { Box, Flex, Image, Input, InputGroup, InputLeftElement, Stack, Text } from '@chakra-ui/react'
+import { useContext, useEffect } from 'react'
 import logo from '../assets/logo.png'
+import { TripContext } from '../hooks/useTrips'
 
 export function Header() {
+    const {trip} = useContext(TripContext)
+    useEffect(() => {
+     console.log(trip)
+ 
+    }, [])
+    
     return (<>
         <Flex
             as="header"
@@ -12,7 +20,7 @@ export function Header() {
     
             >
             <Flex width={{ base: "80%", lg: '15%' }} borderEnd="1px" borderColor="#fff">
-             
+
                     <a href='/'>
                         <img src={logo} width="85%" alt="Magnun Courses" />
                     </a>

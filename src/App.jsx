@@ -4,10 +4,12 @@ import { theme } from './styles/theme'
 import { Header } from './components/Header'
 import {ChakraProvider} from '@chakra-ui/react'
 import { Box, Button, Flex, Heading, Text, FormControl, FormLabel, Input as ChakraInput, } from '@chakra-ui/react'
+import { TripProvider } from './hooks/useTrips'
 
 function App() {
 
   return (
+    <TripProvider>
         <ChakraProvider theme={theme}>
           <Header />
         <Flex alignItems="center" h="50vh">
@@ -15,7 +17,7 @@ function App() {
               <Box maxW='32rem'>
             <FormLabel htmlFor="trip" textAlign="center">Digite o código do ponto para obter informações:</FormLabel>
 
-            <FormControl display="flex">
+            <FormControl display="flex" alignItems="center">
               <ChakraInput
                 name="search-trip"
                 id="searc-tripID"
@@ -23,15 +25,17 @@ function App() {
                 focusBorderColor='blue.100'
                 bgColor="gray.100"
                 variant="filled"
+                placeholder='Ex: E23A'
+                textTransform="uppercase"
                 _hover={{
                   bgColor: 'gray.100'
                 }}
-                size="lg"
+                  borderRightRadius="0"
                 maxLength='4'
               
               />
-              <Button type="submit" >
-                Search
+              <Button type="submit" borderLeftRadius="0" colorScheme='blue'>
+                Buscar
               </Button>
             </FormControl>
                 <Text fontSize='xl'>
@@ -42,6 +46,7 @@ function App() {
             </Flex>
         </Flex>
         </ChakraProvider>
+    </TripProvider>
   )
 }
 
