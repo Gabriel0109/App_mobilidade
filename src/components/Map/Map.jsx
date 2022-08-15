@@ -46,7 +46,7 @@ export  function Map(props) {
 
     // ANIMAÇÃO DO ÔNIBUS
     useEffect(() => {
-        gsap.from('.loader', { scale: .5,  repeat: -1, yoyo: true })
+        gsap.from('.loader', { scale: .8,  repeat: -1, yoyo: true })
         handleTripId(props.route_id);
     }, [props.route_id]);
 
