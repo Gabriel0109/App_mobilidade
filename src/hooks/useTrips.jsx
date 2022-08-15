@@ -6,9 +6,8 @@ export const TripContext = createContext()
 
 
 export function TripProvider({children}){
+    // BUSCAR TODAS AS LINHAS
     const [trip, setTrip ] = useState([])
-
-
     useEffect(() => {   
     try{
         async function getTrips() {
@@ -16,7 +15,6 @@ export function TripProvider({children}){
                 .then(response => {
                     console.log(response.data)
                 })
-
         }
         getTrips()
     } catch{
@@ -25,16 +23,12 @@ export function TripProvider({children}){
        
     }, [])
 
-    // FUNÇÕES DE BUSCAS
+    // FUNÇÃO DE BUSCA DO PONTO
     const [searchTripCode, setSearchTripCode] = useState('')
 
     const searchHandler = (query) => {
         setSearchTripCode(query);
     }
-   
-
-
- 
     return(
         <TripContext.Provider value={{ trip, searchHandler,  searchTripCode}}>
             {children}

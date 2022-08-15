@@ -16,6 +16,7 @@
     "framer-motion": "^7.1.0",
     "gsap": "^3.10.4",
     "leaflet": "^1.8.0",
+    "leaflet-routing-machine": "^3.2.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",

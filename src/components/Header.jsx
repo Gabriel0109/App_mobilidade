@@ -12,15 +12,11 @@ export function Header() {
             margin="0 auto"
             p={4}
             alignItems="center"
-
-    
             >
             <Flex width={{ base: "80%", lg: '15%' }} borderEnd="1px" borderColor="#fff">
-
                     <a href='/'>
                         <img src={logo} width="85%" alt="Magnun Courses" />
                     </a>
-                
             </Flex>
             <Text textTransform="uppercase" color="#fff" ms={2} fontWeight="700">
                 Transportes

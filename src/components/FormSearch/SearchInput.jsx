@@ -20,47 +20,68 @@ export function SearchInput() {
     const {route, setRoute} = useContext(RoutingContext)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    // FAZER PESQUISA DE ACORDO COM CÓDIGO INSERIDO
     const searchQueryHandler = async () => {
         searchHandler(searchQuery);
         await axios
-            .get("https://api.mobilidade.rio/trip/?code=" + searchQuery)
+            .get("https://api.mobilidade.rio/trip/?code=" + searchQuery.toUpperCase())
             .then((value) => {
                 setQueryResults(value.data.results);
-                console.log(value.data.results);
             });
     };
 
-  
+    // ENVIAR AO APERTAR ENTER
+    const handleSubmit = () => {
+        searchQueryHandler()
+     };
+
+  useEffect(() => {
+    const keyDownHandler = event => {
+
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        handleSubmit();
+      }
+    };
+
+    document.addEventListener('keydown', keyDownHandler);
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    };
+  }, [searchQuery]);
 
     return (
         <>
             <Box>
-                <FormLabel htmlFor="trip" textAlign="center">Digite o código do ponto para obter informações:</FormLabel>
-                <FormControl display="flex" alignItems="center">
-                    <ChakraInput
-                        name="search-trip"
-                        id="searc-tripID"
-                        type="search"
-                        focusBorderColor='blue.100'
-                        bgColor="gray.100"
-                        variant="filled"
-                        placeholder='Ex: E23A'
-                        textTransform="uppercase"
-                        _hover={{
-                            bgColor: 'gray.100'
-                        }}
-                        borderRightRadius="0"
-                        maxLength='4'
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        value={searchQuery}
-                    />
-                    <Button type="submit" onClick={searchQueryHandler} borderLeftRadius="0" colorScheme='blue'>
-                        Buscar
-                    </Button>
-                </FormControl>
+           <form onSubmit={handleSubmit}>
+                 <FormLabel htmlFor="trip" textAlign="center">Digite o código do ponto para obter informações:</FormLabel>
+                 <FormControl display="flex" alignItems="center">
+                     <ChakraInput
+                         name="search-trip"
+                         id="searc-tripID"
+                         type="search"
+                         focusBorderColor='blue.100'
+                         bgColor="gray.100"
+                         variant="filled"
+                         placeholder='Ex: E23A'
+                         textTransform="uppercase"
+                         _hover={{
+                             bgColor: 'gray.100'
+                         }}
+                         borderRightRadius="0"
+                         maxLength='4'
+                         onChange={(e) => setSearchQuery(e.target.value)}
+                         value={searchQuery}
+                         autoComplete="off"
+                     />
+                     <Button type="submit" onClick={searchQueryHandler} borderLeftRadius="0" colorScheme='blue'>
+                         Buscar
+                     </Button>
+                 </FormControl>
+           </form>
                 
                 <Box>
-                    {/* RESULTADOS DA PESQUISA DO CODIGO */}
+                    {/* RESULTADOS DA PESQUISA DO CÓDIGO */}
                     {queryResults.map((e) => {
                         return <Button key={e.id} w="100%" as="button" h="100%" textAlign="start" size="lg" display="block" py="4" my="4" bg="#074FA7" color="#fff" _hover={{
                             bgColor: 'blue.400'

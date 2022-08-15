@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createContext, useEffect, useState, useRef } from "react";
-import { gsap } from "gsap";
 
 
 export const RoutingContext = createContext()
@@ -11,6 +10,7 @@ export function RoutingProvider({ children }) {
     const [route, setRoute] = useState('')
     const [routeId, setRouteId] = useState([]);
     const loader = useRef()
+    // GERAR VIAGENS DE FORMA GLOBAL
     async function handleTripId(id) {
         let firstPage = ("https://api.mobilidade.rio/sequence/?trip_id=" + id)
         let secondPage = ("https://api.mobilidade.rio/sequence/?page=2&trip_id=" + id)
@@ -30,7 +30,7 @@ export function RoutingProvider({ children }) {
     }
 
 
-    // Pegar ponto do mapa
+    // PEGAR PONTO EM QUE FOI PESQUISADO
     const [currentStop, setCurrentStop] = useState({})
     async function getCurrentStop() {
         await axios.get("https://api.mobilidade.rio/stop/2028O00023C0/")
