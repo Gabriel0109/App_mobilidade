@@ -30,30 +30,11 @@ export function SearchInput() {
             });
     };
 
-    // ENVIAR AO APERTAR ENTER
-    const handleSubmit = () => {
-        searchQueryHandler()
-     };
-
-  useEffect(() => {
-    const keyDownHandler = event => {
-
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        handleSubmit();
-      }
-    };
-
-    document.addEventListener('keydown', keyDownHandler);
-    return () => {
-      document.removeEventListener('keydown', keyDownHandler);
-    };
-  }, [searchQuery]);
+ 
 
     return (
         <>
             <Box>
-           <form onSubmit={handleSubmit}>
                  <FormLabel htmlFor="trip" textAlign="center">Digite o código do ponto para obter informações:</FormLabel>
                  <FormControl display="flex" alignItems="center">
                      <ChakraInput
@@ -78,7 +59,6 @@ export function SearchInput() {
                          Buscar
                      </Button>
                  </FormControl>
-           </form>
                 
                 <Box>
                     {/* RESULTADOS DA PESQUISA DO CÓDIGO */}
