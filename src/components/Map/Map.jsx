@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet'
 import styles from './styles.module.scss'
-import { Tag, Flex } from '@chakra-ui/react';
+import { Tag, Flex, Heading } from '@chakra-ui/react';
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import L from 'leaflet'
@@ -46,7 +46,7 @@ export  function Map(props) {
 
     // ANIMAÇÃO DO ÔNIBUS
     useEffect(() => {
-        gsap.from('.loader', { scale: .8,  repeat: -1, yoyo: true })
+        gsap.from('#loader', { scale: .8,  repeat: -1, yoyo: true })
         handleTripId(props.route_id);
     }, [props.route_id]);
 
@@ -54,7 +54,10 @@ export  function Map(props) {
         <>
             {routeId.length === 0 ? (
               <div>
-                <img className='loader' src={bus} alt="" />
+                <img id='loader' className={styles.loader} src={bus} alt="" />
+                    <Heading size="md" textAlign="center">Carregando</Heading>
+
+                
               </div>
             ) : (
                 <div className={styles.mapWrapper}>
