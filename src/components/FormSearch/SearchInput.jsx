@@ -15,8 +15,7 @@ import { Map } from '../Map/Map'
 export function SearchInput() {
     const [searchQuery, setSearchQuery] = useState("");
     const [queryResults, setQueryResults] = useState([])
-    const { searchHandler } = useContext(TripContext);
-    const [route, setRoute] = useState('')
+    const { searchHandler, route, setRoute } = useContext(TripContext);
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const searchQueryHandler = async () => {
@@ -25,17 +24,11 @@ export function SearchInput() {
             .get("https://api.mobilidade.rio/trip/?code=" + searchQuery)
             .then((value) => {
                 setQueryResults(value.data.results);
+                console.log(value.data.results);
             });
     };
 
-    async function handleQUeryRoute() {
-        await axios.get("https://api.mobilidade.rio/sequence/?trip_id=" + route)
-            .then(response => console.log(response.data))
-        
-    }
-    useEffect(() => {
-        handleQUeryRoute()
-    }, [route])
+  
 
     return (
         <>
@@ -81,10 +74,10 @@ export function SearchInput() {
                         </Button>
                     })}
                      {/* MODAL COM MAPA */}
-                    <Modal isOpen={isOpen} onClose={onClose}>
+                    <Modal  isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
                   
-                        <ModalContent>
+                        <ModalContent mx={2}>
                             <ModalCloseButton />
                             <ModalBody>
                                 <Map route_id={route} />

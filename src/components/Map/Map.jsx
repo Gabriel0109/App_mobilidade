@@ -1,11 +1,12 @@
 import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet'
 import styles from './styles.module.scss'
-import { gsap } from "gsap";
 import { Tag, Flex } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import L from 'leaflet'
 import bus from '../../assets/bus.svg'
+import { gsap } from "gsap";
+import { FaMapMarkerAlt } from 'react-icons/fa'
 
 export  function Map(props) {
     var redIcon = new L.Icon({
@@ -21,12 +22,24 @@ export  function Map(props) {
 
     const [routeId, setRouteId] = useState([]);
 
-    function handleTripId(id) {
-        axios
-            .get("https://api.mobilidade.rio/sequence/?trip_id=" + id)
-            .then((value) => {
-                setRouteId(value.data.results);
-            });
+   async function handleTripId(id) {
+        let firstPage = ("https://api.mobilidade.rio/sequence/?trip_id=" + id)
+        let secondPage = ("https://api.mobilidade.rio/sequence/?page=2&trip_id=" + id)
+
+        const requestRoutes = await axios.get(firstPage);
+        const requestRoutes2 = await axios.get(secondPage)
+
+        await axios
+            .all([requestRoutes, requestRoutes2])
+            .then(
+                await axios.spread((...responses) => {
+                    var responsePage1 = responses[0].data.results;
+                    var responsePage2 = responses[1].data.results
+                    var fullResponse = responsePage1.concat(responsePage2)
+                    setRouteId(fullResponse);
+                })
+            )
+    
     }
 
     useEffect(() => {
@@ -43,7 +56,9 @@ export  function Map(props) {
             ) : (
                 <div className={styles.mapWrapper}>
                      <Flex my="3">
-                           <Tag size="lg"   w="100%" textAlign="center" variant='solid' colorScheme='blue'>
+                            
+                            <Tag size="lg" w="100%" py={2} textAlign="center" variant='solid' bg="#074FA7" color="#fff">
+                                <FaMapMarkerAlt />
                                {routeId[0].stop.name}
                            </Tag>
                      </Flex>
