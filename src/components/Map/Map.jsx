@@ -1,19 +1,19 @@
 import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet'
 import styles from './styles.module.scss'
 import { Tag, Flex } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import L from 'leaflet'
 import bus from '../../assets/bus.svg'
 import { gsap } from "gsap";
 import { FaMapMarkerAlt } from 'react-icons/fa'
+import { RoutingContext } from '../../hooks/useRoutes';
 
 export  function Map(props) {
+    const {currentStop} = useContext(RoutingContext)
     var redIcon = new L.Icon({
         iconUrl:
-            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-        shadowUrl:
-            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png", 
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
@@ -25,10 +25,8 @@ export  function Map(props) {
    async function handleTripId(id) {
         let firstPage = ("https://api.mobilidade.rio/sequence/?trip_id=" + id)
         let secondPage = ("https://api.mobilidade.rio/sequence/?page=2&trip_id=" + id)
-
         const requestRoutes = await axios.get(firstPage);
         const requestRoutes2 = await axios.get(secondPage)
-
         await axios
             .all([requestRoutes, requestRoutes2])
             .then(
@@ -39,9 +37,7 @@ export  function Map(props) {
                     setRouteId(fullResponse);
                 })
             )
-    
     }
-
     useEffect(() => {
         gsap.from('.loader', { scale: .5,  repeat: -1, yoyo: true })
         handleTripId(props.route_id);
@@ -59,13 +55,13 @@ export  function Map(props) {
                             
                             <Tag size="lg" w="100%" py={2} textAlign="center" variant='solid' bg="#074FA7" color="#fff">
                                 <FaMapMarkerAlt />
-                               {routeId[0].stop.name}
+                               {currentStop.name}
                            </Tag>
                      </Flex>
                     <MapContainer
                         center={[
-                            routeId[0].stop.latitude,
-                            routeId[0].stop.longitude,
+                            currentStop.latitude,
+                            currentStop.longitude,
                         ]}
                         zoom={13}
                         scrollWheelZoom={true}
@@ -83,15 +79,15 @@ export  function Map(props) {
                         ))}
                         <Marker
                             position={[
-                                routeId[0].stop.latitude,
-                                routeId[0].stop.longitude,
+                                    currentStop.latitude,
+                                    currentStop.longitude,
                             ]}
                             icon={redIcon}
                         >
                             <Popup>
                                 Você está aqui
                                 <br />
-                                {routeId[0].stop.name}
+                                {currentStop.name}
                             </Popup>
                         </Marker>
                     </MapContainer>

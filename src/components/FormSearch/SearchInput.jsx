@@ -11,11 +11,13 @@ import {
 import { useContext, useState, useEffect } from 'react'
 import axios from 'axios'
 import { Map } from '../Map/Map'
+import { RoutingContext } from '../../hooks/useRoutes'
 
 export function SearchInput() {
     const [searchQuery, setSearchQuery] = useState("");
     const [queryResults, setQueryResults] = useState([])
-    const { searchHandler, route, setRoute } = useContext(TripContext);
+    const { searchHandler} = useContext(TripContext);
+    const {route, setRoute} = useContext(RoutingContext)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const searchQueryHandler = async () => {

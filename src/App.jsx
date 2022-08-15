@@ -4,7 +4,6 @@ import { Header } from './components/Header'
 import { Box,  Flex, } from '@chakra-ui/react'
 import { useContext, useState } from 'react'
 import { TripContext } from './hooks/useTrips'
-import{Map} from './components/Map/Map'
 
 
 
