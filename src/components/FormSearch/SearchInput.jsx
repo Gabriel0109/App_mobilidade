@@ -1,15 +1,23 @@
 
 import { TripContext } from '../../hooks/useTrips'
 import { FaArrowAltCircleRight } from 'react-icons/fa'
-import { Heading, Text, Flex } from "@chakra-ui/react"
-import { Button, FormControl, FormLabel, Input as ChakraInput, Box } from '@chakra-ui/react'
+import { useDisclosure } from '@chakra-ui/react'
+import {
+    Button, FormControl, FormLabel, Input as ChakraInput, Box, Heading, Flex, Text, Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalBody,
+    ModalCloseButton, } from '@chakra-ui/react'
 import { useContext, useState, useEffect } from 'react'
 import axios from 'axios'
+import { Map } from '../Map/Map'
 
 export function SearchInput() {
     const [searchQuery, setSearchQuery] = useState("");
     const [queryResults, setQueryResults] = useState([])
     const { searchHandler } = useContext(TripContext);
+    const [route, setRoute] = useState('')
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const searchQueryHandler = async () => {
         searchHandler(searchQuery);
@@ -19,10 +27,11 @@ export function SearchInput() {
                 setQueryResults(value.data.results);
             });
     };
-    const [route, setRoute] = useState('')
+
     async function handleQUeryRoute() {
         await axios.get("https://api.mobilidade.rio/sequence/?trip_id=" + route)
             .then(response => console.log(response.data))
+        
     }
     useEffect(() => {
         handleQUeryRoute()
@@ -32,7 +41,6 @@ export function SearchInput() {
         <>
             <Box>
                 <FormLabel htmlFor="trip" textAlign="center">Digite o código do ponto para obter informações:</FormLabel>
-
                 <FormControl display="flex" alignItems="center">
                     <ChakraInput
                         name="search-trip"
@@ -55,23 +63,34 @@ export function SearchInput() {
                         Buscar
                     </Button>
                 </FormControl>
+                
                 <Box>
+                    {/* RESULTADOS DA PESQUISA DO CODIGO */}
                     {queryResults.map((e) => {
                         return <Button key={e.id} w="100%" as="button" h="100%" textAlign="start" size="lg" display="block" py="4" my="4" bg="#074FA7" color="#fff" _hover={{
                             bgColor: 'blue.400'
-                        }} onClick={() => { setRoute(e.id) }}>
+                        }} onClick={() => { setRoute(e.id); onOpen() }}>
                             <Heading size="lg" display="block">
                                 {e.route.short_name}
                             </Heading>
                             <Flex alignItems="center">
-                                <FaArrowAltCircleRight />
-                                <Text ms="1" fontSize="md" fontWeight="300">
+                                <Text ms="1" fontSize="md" whiteSpace="normal" fontWeight="300">
                                     {e.route.vista}
                                 </Text>
                             </Flex>
                         </Button>
                     })}
-
+                     {/* MODAL COM MAPA */}
+                    <Modal isOpen={isOpen} onClose={onClose}>
+                        <ModalOverlay />
+                  
+                        <ModalContent>
+                            <ModalCloseButton />
+                            <ModalBody>
+                                <Map route_id={route} />
+                            </ModalBody>
+                        </ModalContent>
+                    </Modal>
                 </Box>
             </Box>
         </>

@@ -15,10 +15,9 @@ function App() {
 <>
           <Header />
           <Flex alignItems="center" mt="5">
-              <Flex width={{ base: "80%", xl: '67%' }} borderRadius={8} bgColor="#fff" m="0 auto" py="4rem" alignItems="center" flexDirection="column">
-          <Box width={{ base: "80%", xl: '67%' }}>
+              <Flex width={{ base: "90%", xl: '67%' }} borderRadius={8} bgColor="#fff" m="0 auto" py="4rem" alignItems="center" flexDirection="column">
+              <Box px="4" w="90%">
                   <SearchInput search={handleSearch} />
-              <Map trip_id="B0010AAF0AIDU01" />
                 </Box>
               </Flex>
         </Flex>
