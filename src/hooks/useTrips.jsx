@@ -29,6 +29,7 @@ export function TripProvider({children}){
     const searchHandler = (query) => {
         setSearchTripCode(query);
     }
+   
     return(
         <TripContext.Provider value={{ trip, searchHandler,  searchTripCode}}>
             {children}
