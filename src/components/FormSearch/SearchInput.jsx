@@ -1,9 +1,9 @@
 
 import { TripContext } from '../../hooks/useTrips'
-import {Button,  FormControl, FormLabel, Input as ChakraInput, Box, Heading, Text, Flex } from '@chakra-ui/react'
+import {Button,  FormControl, FormLabel, Input as ChakraInput, Box } from '@chakra-ui/react'
 import { useContext, useState } from 'react'
 import axios from 'axios'
-import { FaArrowAltCircleRight } from 'react-icons/fa'
+import { SearchItem } from './SearchItems'
 
 export function SearchInput(){
     const [searchQuery, setSearchQuery] = useState("");
@@ -49,22 +49,9 @@ export function SearchInput(){
                     </Button>
                 </FormControl>
                 <Box>
-                    {queryResults.map((e) => (
-                       
-                            <Button w="100%" as="button" h="100%" textAlign="start" size="lg" display="block" py="4"  my="4" bg="#074FA7" color="#fff" _hover={{
-                                bgColor: 'blue.400'
-                            }} onClick={() => {console.log(e.id)}}>
-                                <Heading size="lg" display="block">
-                            {e.route.short_name}
-                                </Heading>
-                                <Flex alignItems="center">
-                                <FaArrowAltCircleRight />
-                                <Text ms="1">
-                                    {e.headsign}
-                                </Text>
-                                </Flex>
-                            </Button>
-                    ))}
+                    {queryResults.map((e) => {
+                       return <SearchItem key={e.id} info={e} />
+                    })}
                 
                 </Box>
             </Box>

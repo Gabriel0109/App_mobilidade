@@ -4,6 +4,7 @@ import { Header } from './components/Header'
 import { Box,  Flex, } from '@chakra-ui/react'
 import { useContext, useState } from 'react'
 import { TripContext } from './hooks/useTrips'
+import {Map} from './components/Map/Map'
 
 
 
@@ -16,6 +17,7 @@ function App() {
               <Flex width={{ base: "80%", xl: '67%' }} borderRadius={8} bgColor="#fff" m="0 auto" py="4rem" alignItems="center" flexDirection="column">
           <Box width={{ base: "80%", xl: '67%' }}>
                   <SearchInput search={handleSearch} />
+            <Map trip_id="O0583AAA0AIDU01"/>
                 </Box>
               </Flex>
         </Flex>
