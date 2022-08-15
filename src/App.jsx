@@ -12,12 +12,12 @@ function App() {
   return (
 <>
           <Header />
-        <Flex alignItems="center" h="50vh">
-            <Flex width={{ base: "80%", xl: '67%' }} borderRadius={8} bgColor="#fff" m="0 auto" py="4rem" alignItems="center" flexDirection="column">
-              <Box maxW='32rem'>
-                <SearchInput search={handleSearch} />
-              </Box>
-            </Flex>
+          <Flex alignItems="center" mt="5">
+              <Flex width={{ base: "80%", xl: '67%' }} borderRadius={8} bgColor="#fff" m="0 auto" py="4rem" alignItems="center" flexDirection="column">
+          <Box width={{ base: "80%", xl: '67%' }}>
+                  <SearchInput search={handleSearch} />
+                </Box>
+              </Flex>
         </Flex>
         </>
   )

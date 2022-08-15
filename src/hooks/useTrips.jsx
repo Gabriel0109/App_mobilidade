@@ -15,7 +15,7 @@ export function TripProvider({children}){
         async function getTrips() {
             await axios.get('https://api.mobilidade.rio/trip')
                 .then(response => {
-                    console.log(response.data.results)
+                    console.log(response.data)
                 })
 
         }
